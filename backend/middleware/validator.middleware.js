@@ -1,8 +1,16 @@
+import { countries } from "../contries/contries.js";
+
 export const validateAlert = (req, res, next) => {
     const { country, visaType, status } = req.body;
     
     if (!country || !visaType || !status) {
         const error = new Error("Country, visaType, and status are required");
+        error.statusCode = 400;
+        return next(error);
+    }
+
+    if (!countries.includes(country)) {
+        const error = new Error(`Invalid country. Must be a valid country from the provided list.`);
         error.statusCode = 400;
         return next(error);
     }

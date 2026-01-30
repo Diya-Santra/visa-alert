@@ -40,9 +40,18 @@ export const createAlert = async (req, res, next) => {
 // PUT 
 export const updateAlert = async (req, res, next) => {
     try {
+        const { status } = req.body;
+        
+        if (!status) {
+            return res.status(400).json({
+                success: false,
+                message: "Please provide a status to update"
+            });
+        }
+
         const alert = await Alert.findOneAndUpdate(
             { id: Number(req.params.id) },
-            req.body,
+            { status },
             { new: true, runValidators: true }
         );
         if (!alert){

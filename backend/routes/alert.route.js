@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get("/", getAlerts);
 router.post("/", validateAlert, createAlert);
-router.put("/:id", validateAlert, updateAlert);
+router.put("/:id", updateAlert);
 router.delete("/:id", deleteAlert);
 
 export default router;
