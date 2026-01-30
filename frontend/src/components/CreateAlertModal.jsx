@@ -28,7 +28,7 @@ const CreateAlertModal = ({ isOpen, onClose, onCreate }) => {
 
     const fetchCountries = async () => {
         try {
-            const response = await fetch('http://localhost:3000/countries');
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/countries`);
             const data = await response.json();
             if (data.success) {
                 setCountries(data.countries);

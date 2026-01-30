@@ -16,7 +16,7 @@ const App = () => {
   const fetchAlerts = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:3000/alerts');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/alerts`);
       const data = await response.json();
       if (data.success) {
         setAlerts(data.alerts);
@@ -37,7 +37,7 @@ const App = () => {
 
   const handleCreateAlert = async (newAlert) => {
     try {
-      const response = await fetch('http://localhost:3000/alerts', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/alerts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newAlert),
@@ -45,7 +45,7 @@ const App = () => {
       const data = await response.json();
       if (data.success) {
         setIsModalOpen(false);
-        fetchAlerts(); 
+        fetchAlerts();
       }
     } catch (error) {
       console.error('Error creating alert:', error);
@@ -58,7 +58,7 @@ const App = () => {
         alert.id === id ? { ...alert, status: newStatus } : alert
       ));
 
-      const response = await fetch(`http://localhost:3000/alerts/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/alerts/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
@@ -72,19 +72,19 @@ const App = () => {
       }
     } catch (error) {
       console.error('Error updating status:', error);
-      fetchAlerts(); 
+      fetchAlerts();
     }
   };
 
   const handleDeleteAlert = async (id) => {
     if (window.confirm('Are you sure you want to delete this alert?')) {
       try {
-        const response = await fetch(`http://localhost:3000/alerts/${id}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/alerts/${id}`, {
           method: 'DELETE',
         });
         const data = await response.json();
         if (data.success) {
-          fetchAlerts(); 
+          fetchAlerts();
         }
       } catch (error) {
         console.error('Error deleting alert:', error);
@@ -116,7 +116,7 @@ const App = () => {
           </div>
         </div>
 
-        
+
         <div className="bg-white rounded-xl card-shadow border border-slate-200 overflow-hidden">
           <AlertTable
             alerts={currentItems}
@@ -125,7 +125,7 @@ const App = () => {
             onDelete={handleDeleteAlert}
           />
 
-          
+
           {!loading && totalPages > 1 && (
             <div className="border-t border-slate-100 bg-slate-50/50 px-6 py-4 flex items-center justify-between">
               <span className="text-xs text-slate-500 font-medium">
